@@ -1,0 +1,242 @@
+
+/*Как выбрать записи с нечётными Id?*/
+
+CREATE DATABASE script01;
+
+ USE script01;
+
+CREATE TABLE person
+ (
+   id INT auto_increment,
+   surname VARCHAR(30) NOT NULL,
+   age INT,
+   CONSTRAINT person_pk
+   PRIMARY KEY (id)
+ );
+
+INSERT INTO person ( surname, age) VALUES
+ ( 'Григорович', 22),
+ ( 'Кудерко', 21),
+ ( 'Лохматов', 22),
+ ( 'Дорц', 24)ж
+
+SELECT * FROM person
+ WHERE id % 2 != 0;
+
+CREATE DATABASE script02;
+
+ USE script02;
+
+CREATE TABLE person
+ (
+    id INT auto_increment,
+    name VARCHAR(20) NOT NULL,
+    surname VARCHAR(30) NOT NULL,
+    age INT,
+    email VARCHAR(64) not null,
+    CONSTRAINT person_pk
+    PRIMARY KEY (id)
+ );
+
+INSERT INTO person (name, surname, age, email) VALUES
+ ('Александр', 'Григорович', 22, 'grigorovich@mail.ru'),
+ ('Алексей', 'Кудерко', 21, 'kuderko@mail.ru'),
+ ('Алексей', 'Лохматов', 21, 'lohmatov@mail.ru');
+
+
+SELECT email, COUNT(email) FROM person GROUP BY email HAVING COUNT(email) > 1;
+
+/*При выборке из таблицы прибавьте к дате 1 день*/
+
+ CREATE DATABASE script03;
+
+ USE script03;
+
+ CREATE TABLE person
+ (
+    id INT auto_increment,
+    name VARCHAR(20) NOT NULL,
+    surname VARCHAR(30) NOT NULL,
+    age INT,
+    dateOfCreation TIMESTAMP,
+     CONSTRAINT person_pk
+         PRIMARY KEY (id)
+ );
+
+INSERT INTO person (name, surname, age, dateOfCreation) VALUES
+ ('Александр', 'Григорович', 22, now()),
+ ('Алексей', 'Кудерко', 21, now()),
+ ('Алексей', 'Лохматов', 21, now());
+
+ SELECT name, surname, date_add(dateOfCreation,interval 1 day) 
+     AS correctedDate FROM person;
+
+CREATE DATABASE script04;
+
+ USE script04;
+
+CREATE TABLE person
+ (
+   id INT auto_increment,
+   surname VARCHAR(30) NOT NULL,
+   age INT,
+   CONSTRAINT person_pk
+   PRIMARY KEY (id)
+ );
+
+INSERT INTO person ( surname, age) VALUES
+('Александр', 'Григорович', 22),
+('Алексей', 'Кудерко', 21),
+('Алексей', 'Лохматов', 21);
+
+SELECT DISTINCT surname FROM person;
+
+CREATE DATABASE script05;
+
+ USE script05;
+
+ CREATE TABLE person (
+         id INT auto_increment,
+         surname VARCHAR(30) not null,
+         name VARCHAR(20) not null,
+         salary FLOAT (6,2),
+         CONSTRAINT person_pk
+         PRIMARY KEY(id)
+ );
+
+ INSERT INTO person
+ (name, surname, salary) VALUES
+ ('Павел', 'Григорович', 2000.40),
+ ('Игорь', 'Васюкович', 9000.90),
+ ('Василий', 'Норович', 5500.10),
+ ('Екатерина', 'Подлужная', 3100.20),
+ ('Юля', 'Дорц', 3200.40),
+ ('Вася', 'Смольский', 3000.40);
+
+ SELECT AVG(salary) FROM person;
+
+CREATE DATABASE script06;
+
+ USE script06;
+
+ CREATE TABLE person (
+         id INT auto_increment,
+         surname VARCHAR(30) not null,
+         name VARCHAR(20) not null,
+         salary FLOAT (6,2),
+         CONSTRAINT person_pk
+         PRIMARY KEY(id)
+ );
+
+ INSERT INTO person (name, surname, salary) VALUES
+ ('Павел', 'Григорович', 2000.40),
+ ('Игорь', 'Васюкович', 9000.90),
+ ('Василий', 'Норович', 5500.10),
+ ('Екатерина', 'Подлужная', 3100.20),
+ ('Юля', 'Дорц', 3200.40),
+ ('Вася', 'Смольский', 3000.40);
+
+SELECT * FROM person WHERE salary > (SELECT AVG(salary) FROM person);
+
+ CREATE DATABASE script07;
+
+ USE script07;
+
+ CREATE TABLE departments (
+     id INT AUTO_INCREMENT NOT NULL,
+     name VARCHAR(50),
+     CONSTRAINT departments_id_pk
+     PRIMARY KEY (id)
+ );
+
+ INSERT INTO departments
+ (name) values
+ ('It Department'),
+ ('Salary Department'),
+ ('Planning Department');
+
+ CREATE TABLE workers (
+     id INT AUTO_INCREMENT,
+     surname VARCHAR(50) not null,
+     department_id INT,
+     CONSTRAINT workwers_id_pk
+     primary key (id),
+     CONSTRAINT workers_departments_id_fk
+     FOREIGN KEY (department_id) REFERENCES departments(id)
+ );
+
+INSERT INTO workers (surname, department_id) VALUES
+ ('Григорович', 1),
+ ('Дорц', 2),
+ ('Сайкович', 2),
+ ('Мартинкевич', 3);
+
+SELECT sample.name FROM (SELECT surname, name FROM workers RIGHT JOIN departments ON  
+workers.department_id = departments.id) AS sample WHERE sample.surname IS NULL;
+
+ CREATE DATABASE script08;
+
+ USE script08;
+
+ CREATE TABLE employees (
+         id INT AUTO_INCREMENT,
+         surname VARCHAR(30) NOT NULL,
+         name VARCHAR(20) NOT NULL,
+         salary decimal(8.2),
+         CONSTRAINT employees_id_pk
+         PRIMARY KEY(id)
+ );
+
+ INSERT INTO employees
+ (surname, name, salary) VALUES
+ ('Павел', 'Григорович', 2000.40),
+ ('Игорь', 'Васюкович', 9000.90),
+ ('Василий', 'Норович', 5500.10),
+ ('Екатерина', 'Подлужная', 3100.20),
+ ('Юля', 'Дорц', 3200.40),
+ ('Вася', 'Смольский', 3000.40);
+
+ SELECT * FROM employees;
+
+update employees set salary = case when salary = 900 then 1000 else 1500 end;
+
+ SELECT * FROM employees;
+
+
+create database script09;
+
+ use script09;
+
+ CREATE TABLE employees (
+         id INT AUTO_INCREMENT,
+         surname VARCHAR(30) NOT NULL,
+         name VARCHAR(20) NOT NULL,
+         salary FLOAT (6,2),
+         CONSTRAINT employees_id_pk
+         PRIMARY KEY(id)
+ );
+
+  INSERT INTO employees
+ (surname, name, salary) VALUES
+ ('Павел', 'Григорович', 2000.40),
+ ('Игорь', 'Васюкович', 9000.90),
+ ('Василий', 'Норович', 5500.10),
+ ('Екатерина', 'Подлужная', 3100.20),
+ ('Юля', 'Дорц', 3200.40),
+ ('Вася', 'Смольский', 3000.40);
+
+
+CREATE DATABASE script10;
+
+ USE script10;
+
+
+ CREATE TABLE first_name
+ (
+     id INT AUTO_INCREMENT PRIMARY KEY,
+     some_value VARCHAR(50)
+ );
+
+ALTER TABLE first_name RENAME second_name;
+
+ SELECT CONCAT(name,' ', salary) AS sample FROM employees;
