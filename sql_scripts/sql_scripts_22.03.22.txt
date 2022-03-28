@@ -1,0 +1,70 @@
+/*
+Создать базу данных People
+создать в этой базе таблицу Person с полями:
+-id - Целые числа (индентификатор)
+-age - Целые числа
+-salary - Десятичные дробные числа
+-passport - Строки с фиксированной длиной (10 символов)
+-address - Строки с переменной длиной (до 200 символов)
+-dateOfBirthday - Дата
+-dateTimeCreate- Дата и время
+-timeToLunch - Время
+- letter- Текст большого объёма
+
+Добавить 5 произвольных Person
+Выбрать из этой таблици всех Person у котороых age > 21, и отсортировать эту выборку по полю dateTimeCreate.
+
+Скрипты, которые все это делают залить в гит и создать PullRequest.
+*/
+
+create database academy;
+use academy;
+
+create table People(
+id int primary key not null,
+age int not null,
+salary decimal,
+passport char(10) not null,
+address varchar(200),
+dateOfBirthday date not null,
+dataTimeCreate datetime not null,
+timeToLunch time,
+letter mediumtext 
+);
+drop table academy.people;
+
+insert into academy.people (id, age, salary, passport, address, dateOfBirthday,
+					dataTimeCreate, timeToLunch, letter)
+values (1,20,300.0,'BY', 'ул. Леонида Беды', "2000-02-10", 
+					"2022-03-24 12:44:16", "17:00:00", 'Желаю всех благ');
+
+insert into academy.people (id, age, salary, passport, address, dateOfBirthday,
+					dataTimeCreate, timeToLunch, letter)
+		values (2,25,900.0,'BY', 'ул. Семашко', "1995-07-22", 
+					"2022-03-24 13:30:17", "16:30:00", 'Желаю всех благ и исполнения всех желаний'),
+		(3,26,1000.0,'RUS', 'ул. Дорожная', "1994-02-24", 
+					"2022-03-24 00:30:45", "05:00:00", 'Оставайся давольным'),
+		(4,17,50.0,'BY', 'пр. Партизанский', "2004-07-14", 
+					"2022-03-24 10:36:17", "12:30:00", 'Успехов в учебе и личной жизни'),
+		(5,29,700.0,'BY', 'ул. Семашко', "1995-07-22", 
+					"2022-03-24 13:30:17", "07:25:00", 'Киндеров больше');
+                    
+select *from academy.people;
+ 
+select *from academy.people 
+	where academy.people.age > 21;
+ 
+select *from academy.people 
+	where academy.people.age > 21
+    order by dataTimeCreate asc;
+    
+update academy.people
+	set academy.people.age = 30, academy.people.salary = 1100
+		where academy.people.id = 5 and academy.people.address ='ул. Семашко';
+    
+delete from academy.people where academy.people.id =1;
+
+alter table academy.people add column city int;
+alter table academy.people drop column city;
+
+
