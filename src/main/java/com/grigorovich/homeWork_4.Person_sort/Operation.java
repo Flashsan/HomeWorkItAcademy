@@ -2,6 +2,7 @@ package com.grigorovich.homeWork_4.Person_sort;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.grigorovich.homeWork_4.Person_sort.Data.*;
 
@@ -28,6 +29,7 @@ public class Operation {
 
     /**
      * This method write to Person object to file
+     *
      * @param personSet
      */
     public void writeToFile(Set<Person> personSet) {
@@ -82,6 +84,42 @@ public class Operation {
     }
 
     /**
+     * This method drop equal Person
+     *
+     * @param personSet
+     * @param personList
+     */
+    public Set<Person> removeEqualsPerson(Set<Person> personSet, List<Person> personList) {
+        for (Person person : personList) {
+            personSet.add(person);
+        }
+        return personSet;
+    }
+
+    /**
+     * This method show Person less AGE_RESTRICTION
+     *
+     * @param AGE_RESTRICTION
+     */
+    public void showPersonSortByAgeRestriction(List<Person> personList, int AGE_RESTRICTION) {
+        for (Person person : personList.stream()
+                .filter(i -> i.getAge() <= AGE_RESTRICTION).collect(Collectors.toList())) {
+            System.out.println(person.toString());
+        }
+    }
+
+    /**
+     * This method show information about Object(Person)
+     *
+     * @param objectList
+     */
+    public void showInformationAboutPerson(Set<Person> objectList) {
+        for (Person person : personList) {
+            System.out.println(person.toString());
+        }
+    }
+
+    /**
      * This method show information about Object(Person)
      *
      * @param objectList
@@ -92,8 +130,10 @@ public class Operation {
         }
     }
 
+
     /**
      * This method read Person object from file and return collection person object
+     *
      * @return
      */
     public List<Person> readFromFile() {

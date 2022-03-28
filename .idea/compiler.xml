@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="HomeWorkItAcademy" target="8" />
+      <module name="HomeWorkItAcademy" target="9" />
     </bytecodeTargetLevel>
   </component>
 </project>

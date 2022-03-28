@@ -39,8 +39,6 @@ public class Person implements Serializable {
         this.age = age;
     }
 
-
-
     @Override
     public String toString() {
         return "Person{" +

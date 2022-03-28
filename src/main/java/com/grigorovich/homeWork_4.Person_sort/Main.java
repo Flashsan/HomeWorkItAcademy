@@ -19,18 +19,27 @@ public class Main {
         operation.copyFromSetColToListCol(nameSet, nameList);
         operation.copyFromSetColToListCol(surnameSet, surnameList);
 
+        System.out.println("Generate persons:");
         operation.createPerson(personList, nameList, surnameList);
-        operation.showInformationAboutPerson(personList);
 
-        System.out.println("_____________________________________");
+        System.out.println("Sort by age:");
+        operation.showPersonSortByAgeRestriction(personList, AGE_RESTRICTION);
+
+        System.out.println("Sort by surname, after by name:");
         personList.sort(Comparator.comparing(Person::getSurname).thenComparing(Person::getName));
-
         operation.showInformationAboutPerson(personList);
 
-        System.out.println("__________________");
+        System.out.println("Drop equals person:");
+        operation.removeEqualsPerson(personSet, personList);
+        operation.showInformationAboutPerson(personSet);
 
-        //  personList = operation.readFromFile();
+        System.out.println("Save in file:");
+        operation.writeToFile(personSet);
 
+        System.out.println("Read from file:");
+        operation.readFromFile();
+
+        System.out.println("Collection with stream:");
         List<String> list = personList.stream().
                 map(x -> x.getName() + " " + x.getSurname())
                 .collect(Collectors.toList());
